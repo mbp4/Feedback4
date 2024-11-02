@@ -21,7 +21,7 @@ class VerNovelaFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.activity_ver, container, false)
+        return inflater.inflate(R.layout.fragment_ver, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ class VerNovelaFragment : Fragment() {
         }
 
         btnVolver.setOnClickListener {
-            parentFragmentManager.popBackStack() 
+            parentFragmentManager.popBackStack()
 
             (activity as? MainActivity)?.let {
                 it.findViewById<RecyclerView>(R.id.recyclerNovelas).visibility = View.VISIBLE

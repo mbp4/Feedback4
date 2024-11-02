@@ -74,7 +74,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        mostrarNovelas()
+        if (savedInstanceState == null) {
+
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmento, ListadoNovelasFragmento())
+                .commit()
+        }
 
     }
 
@@ -155,7 +160,7 @@ class MainActivity : AppCompatActivity() {
     }
     //metodo para borrar de favoritos la novela
 
-    private fun verNovela(novela: Novela) {
+    fun verNovela(novela: Novela) {
         val fragment = VerNovelaFragment().apply {
             arguments = Bundle().apply {
                 putString("Titulo", novela.titulo)
