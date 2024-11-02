@@ -161,4 +161,9 @@ class ListadoNovelasFragmento:Fragment() {
         (activity as? MainActivity)?.cambiar(this)
     }
 
+    override fun onResume() {
+        super.onResume()
+        mostrarNovelas()
+    }
+
 }
