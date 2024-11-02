@@ -41,9 +41,8 @@ class VerNovelaFragment : Fragment() {
         }
 
         btnVolver.setOnClickListener {
-            parentFragmentManager.popBackStack() // Navega hacia atrás en el stack de fragmentos
+            parentFragmentManager.popBackStack() 
 
-            // Al regresar a la actividad principal, muestra el RecyclerView y oculta el fragmento
             (activity as? MainActivity)?.let {
                 it.findViewById<RecyclerView>(R.id.recyclerNovelas).visibility = View.VISIBLE
                 it.findViewById<FrameLayout>(R.id.fragmento).visibility = View.GONE
