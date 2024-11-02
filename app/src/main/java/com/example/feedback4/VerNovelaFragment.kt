@@ -42,11 +42,8 @@ class VerNovelaFragment : Fragment() {
 
         btnVolver.setOnClickListener {
             parentFragmentManager.popBackStack()
-
-            (activity as? MainActivity)?.let {
-                it.findViewById<RecyclerView>(R.id.recyclerNovelas).visibility = View.VISIBLE
-                it.findViewById<FrameLayout>(R.id.fragmento).visibility = View.GONE
-            }
+            (activity as? MainActivity)?.cambiar(ListadoNovelasFragmento())
         }
+
     }
 }

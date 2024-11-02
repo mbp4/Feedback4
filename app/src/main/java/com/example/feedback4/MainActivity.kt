@@ -12,6 +12,7 @@ import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Firebase
@@ -23,7 +24,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnAcercaDe: Button
     private lateinit var btnTema: ToggleButton
     private lateinit var btnConfig: ImageButton
-    private lateinit var recyclerNovelas: RecyclerView
     private lateinit var novelasAdapter: NovelasAdapter
     private var listadoNovelasF: MutableList<Novela> = mutableListOf()
     private val db: FirebaseFirestore = Firebase.firestore
@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
 
         btnAlta = findViewById(R.id.btnAlta)
         btnAcercaDe = findViewById(R.id.btnAcercaDe)
-        recyclerNovelas = findViewById(R.id.recyclerNovelas)
         btnTema = findViewById(R.id.btnTema)
         btnConfig = findViewById(R.id.btnAjustes)
         //asociamos a los botones el identificador del boton del layout
@@ -75,10 +74,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmento, ListadoNovelasFragmento())
-                .commit()
+            cambiar(ListadoNovelasFragmento())
         }
 
     }
@@ -102,114 +98,27 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    override fun onResume() {
-        super.onResume()
-        mostrarNovelas()
-    }
-    //creamos una función que haga que la lista se actualice al volver a la actividad
-
-    private fun mostrarNovelas() {
-        db.collection("dbNovelas")
-            .get()
-            .addOnSuccessListener { documentos ->
-                listadoNovelasF.clear()
-                for (documento in documentos) {
-                    val novela = documento.toObject(Novela::class.java)
-                    listadoNovelasF.add(novela)
-                }
-                prepararRecyclerView()
-            }
-            .addOnFailureListener({ exception ->
-                Toast.makeText(this, "Error al obtener las novelas", Toast.LENGTH_SHORT).show()
-                Log.w(TAG, "Error al obtener las novelas de la base de datos", exception)
-            }) //mandamos un error a la logcat y al usuario en el caso de que no se pueda obtener la lista de novelas de la base de datos
-        //creamos un metodo que hace que muestre la lista de novelas de la base de datos y las añada a una lista de novelas para uqe se muestren en la principal
-    }
-
-    private fun prepararRecyclerView() {
-        recyclerNovelas.layoutManager = LinearLayoutManager(this)
-        //configuramos el recycler para que sea una lista vertical
-        novelasAdapter = NovelasAdapter(listadoNovelasF) { novela, accion ->
-            if (accion == ACCION_VER) {
-                verNovela(novela)
-            } else if (accion == ACCION_BORRAR) {
-                borrarNovela(novela)
-            } else if (accion == ACCION_FAV) {
-                añadirFavorita(novela)
-            } else if (accion == ACCION_XFAV){
-                xFav(novela)
-            }
-            //hacemos que el metodo identifique si el usuario quiere borrar, ver la novela o añadir o borrar de favoritos y se ejecuta la accion elegida
-
-        }
-        recyclerNovelas.adapter = novelasAdapter //asignamos el recycler a la vista
-        novelasAdapter.notifyDataSetChanged() //notificamos al adaptador que los datos han cambiado
-    }
-
-    private fun xFav(novela: Novela) {
-        db.collection("dbNovelas")
-            .whereEqualTo("titulo", novela.titulo)
-            .get()
-            .addOnSuccessListener { documentos ->
-                for (documento in documentos) {
-                    documento.reference.update("fav", false)
-                }
-                mostrarNovelas()
-                Toast.makeText(this, "Novela eliminada de favoritos", Toast.LENGTH_SHORT).show()
-            }
-    }
-    //metodo para borrar de favoritos la novela
-
-    fun verNovela(novela: Novela) {
-        val fragment = VerNovelaFragment().apply {
-            arguments = Bundle().apply {
-                putString("Titulo", novela.titulo)
-                putString("Autor", novela.autor)
-                putInt("Año", novela.año)
-                putString("Sinopsis", novela.sinopsis)
-            }
-        }
-
-        findViewById<RecyclerView>(R.id.recyclerNovelas).visibility = View.GONE
-        findViewById<FrameLayout>(R.id.fragmento).visibility = View.VISIBLE
-
+    fun cambiar(fragmento: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmento, fragment)
-            .addToBackStack(null)
+            .replace(R.id.fragmento, fragmento)
             .commit()
     }
 
+    /*
+    override fun onResume() {
+        super.onResume()
+       // mostrarNovelas()
 
-    private fun borrarNovela(novela: Novela) {
-        db.collection("dbNovelas")
-            .whereEqualTo("titulo", novela.titulo)
-            .get()
-            .addOnSuccessListener { documentos ->
-                for (documento in documentos) {
-                    documento.reference.delete()
-                }
-                mostrarNovelas()
-                Toast.makeText(this, "Novela eliminada", Toast.LENGTH_SHORT).show()
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Error al borrar la novela", Toast.LENGTH_SHORT).show()
-            }
+        findViewById<RecyclerView>(R.id.recyclerNovelas).visibility = View.VISIBLE
+        findViewById<FrameLayout>(R.id.fragmento).visibility = View.GONE
     }
-    //con este metodo buscamos la novela que el usuario ha elegido y la borramos de la base de datos dandole a la vez un mensaje para que sepa que se ha eliminado correctamente
+    //creamos una función que haga que la lista se actualice al volver a la actividad
 
-    private fun añadirFavorita(novela: Novela) {
-        db.collection("dbNovelas")
-            .whereEqualTo("titulo", novela.titulo)
-            .get()
-            .addOnSuccessListener { documentos ->
-                for (documento in documentos) {
-                    documento.reference.update("fav", true)
-                }
-                mostrarNovelas()
-                Toast.makeText(this, "Novela añadida a favoritos", Toast.LENGTH_SHORT).show()
-            }
-    }
-    //metodo para cambiar el atributo de la novela y añadirlo a favoritos
+
+     */
+
+
+
 }
 
 
