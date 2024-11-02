@@ -37,33 +37,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        tools:ignore="ExtraText">
+        android:gravity="center">
 
         <Button
             android:id="@+id/btnFavorito"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Añadir a favoritos"
-            android:layout_marginEnd="8dp"
-            />
+            android:layout_marginEnd="8dp" />
 
         <Button
             android:id="@+id/btnXFavorito"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Borrar de favoritos" />
+            android:layout_weight="1"
+            android:text="Borrar de favoritos"
+            android:layout_marginEnd="8dp" />
 
         <ImageView
             android:id="@+id/estrella"
-            android:layout_width="71dp"
-            android:layout_height="47dp"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
             android:layout_marginBottom="16dp"
-            android:clickable="true"
             android:contentDescription="Favoritos"
-            android:focusable="true"
             app:srcCompat="@android:drawable/btn_star" />
-
     </LinearLayout>
+
 
     <TextView
         android:id="@+id/favo"

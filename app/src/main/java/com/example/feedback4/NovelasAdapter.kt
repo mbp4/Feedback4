@@ -1,6 +1,7 @@
 package com.example.feedback4
 
 import android.app.AlertDialog
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +41,7 @@ class NovelasAdapter (private var novelas: MutableList<Novela>,
         holder.textAutorNovel.text = currentNovela.autor
         //al inicio solo queremos que se muestre la lista y de cada novela solo se mostrara el titulo y el autor de la misma
         holder.btnVer.setOnClickListener {
+            Log.d("NovelasAdapter", "Botón 'Ver' clickeado para la novela: ${currentNovela.titulo}")
             onNovelasClick(currentNovela, MainActivity.ACCION_VER)
         }
         //para ver la informacion completa se pulsa el boton y se mostrará

@@ -4,7 +4,9 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.Toast
 import android.widget.ToggleButton
@@ -154,14 +156,24 @@ class MainActivity : AppCompatActivity() {
     //metodo para borrar de favoritos la novela
 
     private fun verNovela(novela: Novela) {
-        val intent = Intent(this, VerNovelaActivity::class.java)
-        intent.putExtra("Titulo", novela.titulo)
-        intent.putExtra("Autor", novela.autor)
-        intent.putExtra("Año", novela.año)
-        intent.putExtra("Sinopsis", novela.sinopsis)
-        startActivity(intent)
-        //mostramos todos los datos de la novela que el usuario ha elegido en una nueva pantalla
+        val fragment = VerNovelaFragment().apply {
+            arguments = Bundle().apply {
+                putString("Titulo", novela.titulo)
+                putString("Autor", novela.autor)
+                putInt("Año", novela.año)
+                putString("Sinopsis", novela.sinopsis)
+            }
+        }
+
+        findViewById<RecyclerView>(R.id.recyclerNovelas).visibility = View.GONE
+        findViewById<FrameLayout>(R.id.fragmento).visibility = View.VISIBLE
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmento, fragment)
+            .addToBackStack(null)
+            .commit()
     }
+
 
     private fun borrarNovela(novela: Novela) {
         db.collection("dbNovelas")
