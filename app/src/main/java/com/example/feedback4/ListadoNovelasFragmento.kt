@@ -14,14 +14,16 @@ import com.example.feedback4.MainActivity.Companion.ACCION_BORRAR
 import com.example.feedback4.MainActivity.Companion.ACCION_FAV
 import com.example.feedback4.MainActivity.Companion.ACCION_VER
 import com.example.feedback4.MainActivity.Companion.ACCION_XFAV
+import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import com.google.rpc.context.AttributeContext.Request
 
 class ListadoNovelasFragmento:Fragment() {
     private lateinit var recyclerNovelas: RecyclerView
     private lateinit var novelasAdapter: NovelasAdapter
     private var listadoNovelasF: MutableList<Novela> = mutableListOf()
-    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val db: FirebaseFirestore = Firebase.firestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -61,6 +61,14 @@
             android:theme="@style/Theme.Feedback4">
         </activity>
 
+        <receiver
+            android:name=".FavoritasWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
