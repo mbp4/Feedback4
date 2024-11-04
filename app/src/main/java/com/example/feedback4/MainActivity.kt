@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var novelasAdapter: NovelasAdapter
     private var listadoNovelasF: MutableList<Novela> = mutableListOf()
     private val db: FirebaseFirestore = Firebase.firestore
-    private lateinit var btnFavos: Button
     //creamos todas las variables necesarias para hacer la activity funcional
 
     companion object {
@@ -46,7 +45,6 @@ class MainActivity : AppCompatActivity() {
         btnAcercaDe = findViewById(R.id.btnAcercaDe)
         btnTema = findViewById(R.id.btnTema)
         btnConfig = findViewById(R.id.btnAjustes)
-        btnFavos = findViewById(R.id.btnWidget)
 
         //asociamos a los botones el identificador del boton del layout
 
@@ -76,16 +74,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        btnFavos.setOnClickListener{
-            val intent = Intent(this, FavoritasWidget::class.java)
-            startActivity(intent)
-        }
-
-
 
         if (savedInstanceState == null) {
             cambiar(ListadoNovelasFragmento())
         }
+
+
 
     }
 
