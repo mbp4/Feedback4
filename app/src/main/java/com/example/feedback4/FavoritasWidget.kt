@@ -1,16 +1,10 @@
 package com.example.feedback4
 
-import android.annotation.SuppressLint
-import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
-import android.content.ContentValues.TAG
 import android.content.Context
-import android.content.Intent
 import android.util.Log
-import android.widget.ListView
 import android.widget.RemoteViews
-import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
